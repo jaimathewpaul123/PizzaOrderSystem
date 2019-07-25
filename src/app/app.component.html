@@ -5,14 +5,17 @@
   <div class="cotent">
     <table>
       <tr>
-        <th><h2>Toppings</h2></th>
-        <th><h2>Small <span>{{pizzaCartDetails.small}}</span></h2>
+        <th rowspan="2"><h3>Toppings</h3></th>
+        <th colspan="4"><h3>Pizza Size</h3></th>
+      </tr>
+      <tr>
+        <th><h3>Small <span>{{pizzaCartDetails.small}}</span></h3>
           <button class="add" type="button" name="button" (click) = "addPizza('small')" [disabled]="pizzaCartDetails.small === 1">ADD</button></th>
-        <th><h2>Medium <span>{{pizzaCartDetails.medium}}</span></h2>
+        <th><h3>Medium <span>{{pizzaCartDetails.medium}}</span></h3>
           <button class="add" type="button" name="button" (click) = "addPizza('medium')" [disabled]="pizzaCartDetails.medium === 1">ADD</button></th>
-        <th><h2>Large <span>{{pizzaCartDetails.large}}</span></h2>
+        <th><h3>Large <span>{{pizzaCartDetails.large}}</span></h3>
           <button class="add" type="button" name="button" (click) = "addPizza('large')" [disabled]="pizzaCartDetails.large === 1">ADD</button></th>
-        <th><h2>Extra Large <span>{{pizzaCartDetails.exlarge}}</span></h2>
+        <th><h3>Extra Large <span>{{pizzaCartDetails.exlarge}}</span></h3>
           <button class="add" type="button" name="button" (click) = "addPizza('exlarge')" [disabled]="pizzaCartDetails.exlarge === 1">ADD</button></th>
       </tr>
       <tr>

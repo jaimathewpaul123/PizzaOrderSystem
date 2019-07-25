@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Pizza-order';
   order:any[] =[];
   grandTotal:number = 0;
@@ -64,7 +64,7 @@ export class AppComponent {
   ]
 
   pizzaCartDetails:any={
-    'small':0,
+    'small':2,
     'medium':0,
     'large':0,
     'exlarge':0
@@ -131,7 +131,9 @@ export class AppComponent {
       }
     }
   }
-
+  ngOnInit() {
+    this.getTotalCount();
+  }
  addPizza(type){
    this.pizzaCartDetails[type] = 1;
    this.getTotalCount()
