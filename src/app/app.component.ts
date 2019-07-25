@@ -7,14 +7,14 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-  title = 'Pizza-order-System';
+  title = 'Pizza-order';
   order:any[] =[];
   grandTotal:number = 0;
   mediumPizzaPrice: number =0;
   smallPizzaPrice: number =0;
   largePizzaPrice: number=0;
   exLargePizzaPrice : number=0;
-  toppingArray: any = [
+  toppingVegArray: any = [
       {
         'name': 'Tomato',
         'price': 1,
@@ -35,6 +35,20 @@ export class AppComponent {
         'name': 'pineApple',
         'price': 0.75,
       },
+      {
+        'name': 'sausage',
+        'price': 1,
+      },
+      {
+        'name': 'pepperoni',
+        'price': 2,
+      },
+      {
+        'name': 'bbQ',
+        'price': 3,
+      }
+  ]
+  toppingNonVegArray: any = [
       {
         'name': 'sausage',
         'price': 1,
