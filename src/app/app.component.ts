@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
   ]
 
   pizzaCartDetails:any={
-    'small':2,
+    'small':0,
     'medium':0,
     'large':0,
     'exlarge':0
