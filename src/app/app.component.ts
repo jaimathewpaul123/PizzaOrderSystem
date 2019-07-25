@@ -34,18 +34,6 @@ export class AppComponent implements OnInit {
       {
         'name': 'pineApple',
         'price': 0.75,
-      },
-      {
-        'name': 'sausage',
-        'price': 1,
-      },
-      {
-        'name': 'pepperoni',
-        'price': 2,
-      },
-      {
-        'name': 'bbQ',
-        'price': 3,
       }
   ]
   toppingNonVegArray: any = [
