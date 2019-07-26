@@ -26,9 +26,10 @@ table th{
   font-weight: normal;
   background-color: #000;
 }
-.add{
+.btn{
   box-shadow: none;
-  padding: 5px 30px;
+  margin: 0 10px;
+  padding: 5px 20px;
   color: #000;
   border-radius: 4px;
   cursor: pointer;

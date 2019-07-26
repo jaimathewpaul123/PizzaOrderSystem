@@ -9,45 +9,57 @@
         <th colspan="4"><h3>Pizza Size</h3></th>
       </tr>
       <tr>
-        <th><h3>Small <span>{{pizzaCartDetails.small}}</span></h3>
-          <button class="add" type="button" name="button" (click) = "addPizza('small')" [disabled]="pizzaCartDetails.small === 1">ADD</button></th>
-        <th><h3>Medium <span>{{pizzaCartDetails.medium}}</span></h3>
-          <button class="add" type="button" name="button" (click) = "addPizza('medium')" [disabled]="pizzaCartDetails.medium === 1">ADD</button></th>
-        <th><h3>Large <span>{{pizzaCartDetails.large}}</span></h3>
-          <button class="add" type="button" name="button" (click) = "addPizza('large')" [disabled]="pizzaCartDetails.large === 1">ADD</button></th>
-        <th><h3>Extra Large <span>{{pizzaCartDetails.exlarge}}</span></h3>
-          <button class="add" type="button" name="button" (click) = "addPizza('exlarge')" [disabled]="pizzaCartDetails.exlarge === 1">ADD</button></th>
+        <th>
+          <h3>Small<span> (${{pizzaDetailObj.small.price}})-</span>  <span>{{pizzaDetailObj.small.quantity}}</span></h3>
+          <button class="btn" type="button" name="button" (click) = "addPizza('small')" >Add</button>
+          <button class="btn" type="button" name="button" [disabled]="pizzaDetailObj.small.quantity === 0" (click) = "removePizza('small')" >Remove</button>
+        </th>
+        <th>
+          <h3>Medium<span> (${{pizzaDetailObj.medium.price}})-</span> <span> {{pizzaDetailObj.medium.quantity}}</span></h3>
+          <button class="btn" type="button" name="button" (click) = "addPizza('medium')" >Add</button>
+          <button class="btn" type="button" name="button" [disabled]="pizzaDetailObj.medium.quantity === 0" (click) = "removePizza('medium')" >Remove</button>
+        </th>
+        <th>
+          <h3>Large<span> (${{pizzaDetailObj.large.price}})-</span>  <span>{{pizzaDetailObj.large.quantity}}</span></h3>
+          <button class="btn" type="button" name="button" (click) = "addPizza('large')" >Add</button>
+          <button class="btn" type="button" name="button" [disabled]="pizzaDetailObj.large.quantity === 0" (click) = "removePizza('large')" >Remove</button>
+        </th>
+        <th>
+          <h3>Extra Large<span> (${{pizzaDetailObj.exlarge.price}})-</span>  <span>{{pizzaDetailObj.exlarge.quantity}}</span></h3>
+          <button class="btn" type="button" name="button" (click) = "addPizza('exlarge')" >Add</button>
+          <button class="btn" type="button" name="button" [disabled]="pizzaDetailObj.exlarge.quantity === 0" (click) = "removePizza('exlarge')" >Remove</button>
+        </th>
       </tr>
       <tr>
         <td colspan="5" align="left">Veg Toppings</td>
       </tr>
-      <tr *ngFor="let item of toppingVegArray">
-        <td >{{item.name}}</td>
-        <td><input type="checkbox" name="" value="" (change)="changeFn($event, 'small', item)" [disabled]="pizzaCartDetails.small === 0"></td>
-        <td><input type="checkbox" name="" value="" (change)="changeFn($event, 'medium', item)" [disabled]="pizzaCartDetails.medium === 0"></td>
-        <td><input type="checkbox" name="" value="" (change)="changeFn($event, 'large', item)" [disabled]="pizzaCartDetails.large === 0"></td>
-        <td><input type="checkbox" name="" value="" (change)="changeFn($event, 'exlarge', item)" [disabled]="pizzaCartDetails.exlarge === 0"></td>
+      <tr *ngFor="let item of toppingArray.vegToppings">
+        <td >{{item.name}} <span> -(${{ item.price}}) </span></td>
+        <td><input type="checkbox" (change)="changeFn($event, 'small', item)" [disabled]="pizzaDetailObj.small.quantity === 0"></td>
+        <td><input type="checkbox" (change)="changeFn($event, 'medium', item)" [disabled]="pizzaDetailObj.medium.quantity === 0"></td>
+        <td><input type="checkbox" (change)="changeFn($event, 'large', item)" [disabled]="pizzaDetailObj.large.quantity=== 0"></td>
+        <td><input type="checkbox" (change)="changeFn($event, 'exlarge', item)" [disabled]="pizzaDetailObj.exlarge.quantity === 0"></td>
       </tr>
       <tr>
         <td colspan="5" align="left">Non-Veg Toppings</td>
       </tr>
-      <tr *ngFor="let item of toppingNonVegArray">
-        <td >{{item.name}}</td>
-        <td><input type="checkbox" name="" value="" (change)="changeFn($event, 'small', item)" [disabled]="pizzaCartDetails.small === 0"></td>
-        <td><input type="checkbox" name="" value="" (change)="changeFn($event, 'medium', item)" [disabled]="pizzaCartDetails.medium === 0"></td>
-        <td><input type="checkbox" name="" value="" (change)="changeFn($event, 'large', item)" [disabled]="pizzaCartDetails.large === 0"></td>
-        <td><input type="checkbox" name="" value="" (change)="changeFn($event, 'exlarge', item)" [disabled]="pizzaCartDetails.exlarge === 0"></td>
+      <tr *ngFor="let item of toppingArray.nonVegToppings">
+        <td >{{item.name}} <span>- {{ item.price}}</span></td>
+        <td><input type="checkbox" (change)="changeFn($event, 'small', item)" [disabled]="pizzaDetailObj.small.quantity === 0"></td>
+        <td><input type="checkbox" (change)="changeFn($event, 'medium', item)" [disabled]="pizzaDetailObj.medium.quantity === 0"></td>
+        <td><input type="checkbox" (change)="changeFn($event, 'large', item)" [disabled]="pizzaDetailObj.large.quantity === 0"></td>
+        <td><input type="checkbox" (change)="changeFn($event, 'exlarge', item)" [disabled]="pizzaDetailObj.exlarge.quantity === 0"></td>
       </tr>
       <tr>
         <td>Individual Price</td>
-        <td>{{smallPizzaPrice}}</td>
-        <td>{{mediumPizzaPrice}}</td>
-        <td>{{largePizzaPrice}}</td>
-        <td>{{exLargePizzaPrice}}</td>
+        <td>${{pizzaDetailObj.small.sum}}<p>{{pizzaDetailObj.small.offer}}</p></td>
+        <td>${{pizzaDetailObj.medium.sum}}<p>{{pizzaDetailObj.medium.offer}}</p></td>
+        <td>${{pizzaDetailObj.large.sum}}<p>{{pizzaDetailObj.large.offer}}</p></td>
+        <td>${{pizzaDetailObj.exlarge.sum}}<p>{{pizzaDetailObj.exlarge.offer}}</p></td>
       </tr>
       <tr>
         <td>Total</td>
-        <td colspan="4">{{grandTotal}}</td>
+        <td colspan="4">${{grandTotal}}</td>
       </tr>
     </table>
   </div>

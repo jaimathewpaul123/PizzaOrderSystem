@@ -6,68 +6,55 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'Pizza-order';
-  order:any[] =[];
   grandTotal:number = 0;
-  mediumPizzaPrice: number =0;
-  smallPizzaPrice: number =0;
-  largePizzaPrice: number=0;
-  exLargePizzaPrice : number=0;
-  toppingVegArray: any = [
+  toppingArray:any = {
+    'vegToppings' : [
       {
         'name': 'Tomato',
         'price': 1,
       },
       {
-        'name': 'onions',
+        'name': 'Onions',
         'price': 0.50,
       },
       {
-        'name': 'bellPepper',
+        'name': 'BellPepper',
         'price': 1,
       },
       {
-        'name': 'mushrooms',
+        'name': 'Mushrooms',
         'price': 1.20,
       },
       {
-        'name': 'pineApple',
+        'name': 'PineApple',
         'price': 0.75,
       }
-  ]
-  toppingNonVegArray: any = [
+    ],
+    'nonVegToppings' : [
       {
-        'name': 'sausage',
+        'name': 'Sausage',
         'price': 1,
       },
       {
-        'name': 'pepperoni',
+        'name': 'Pepperoni',
         'price': 2,
       },
       {
-        'name': 'bbQ',
+        'name': 'BbQ',
         'price': 3,
       }
-  ]
-
-  pizzaCartDetails:any={
-    'small':0,
-    'medium':0,
-    'large':0,
-    'exlarge':0
+    ]
   }
 
-
-  price:any ={
-    'small':5,
-    'medium':7,
-    'large': 8,
-    'exLarge': 9
-  }
   pizzaDetailObj:any = {
     'small':{
       'price':5,
+      'quantity': 0,
+      'topCount':0,
+      'sum':0,
+      'offer':'',
       'toppingsDetails': {
         'tomatoes':0,
         'onions':0,
@@ -81,6 +68,10 @@ export class AppComponent implements OnInit {
     },
     'medium':{
       'price':7,
+      'quantity': 0,
+      'topCount':0,
+      'sum':0,
+      'offer':'',
       'toppingsDetails': {
         'tomatoes':0,
         'onions':0,
@@ -94,6 +85,10 @@ export class AppComponent implements OnInit {
     },
     'large':{
       'price':8,
+      'quantity': 0,
+      'topCount':0,
+      'sum':0,
+      'offer':'',
       'toppingsDetails': {
         'tomatoes':0,
         'onions':0,
@@ -107,6 +102,10 @@ export class AppComponent implements OnInit {
     },
     'exlarge':{
       'price':9,
+      'quantity': 0,
+      'topCount':0,
+      'sum':0,
+      'offer':'',
       'toppingsDetails': {
         'tomatoes':0,
         'onions':0,
@@ -119,130 +118,72 @@ export class AppComponent implements OnInit {
       }
     }
   }
-  ngOnInit() {
-    this.getTotalCount();
-  }
+
  addPizza(type){
-   this.pizzaCartDetails[type] = 1;
-   this.getTotalCount()
+   this.pizzaDetailObj[type].quantity++;
+   this.getTotalCount(this.pizzaDetailObj);
  }
+
+ removePizza(type){
+   this.pizzaDetailObj[type].quantity--;
+   this.getTotalCount(this.pizzaDetailObj);
+ }
+
   changeFn(event,size,item){
     if(event.target.checked){
       this.pizzaDetailObj[size].toppingsDetails[item.name] = item.price;
+      if(item.name === 'Pepperoni'||item.name === 'BbQ'){
+        this.pizzaDetailObj[size].topCount = this.pizzaDetailObj[size].topCount +2;
+      } else{
+        this.pizzaDetailObj[size].topCount++
+      }
     } else {
       this.pizzaDetailObj[size].toppingsDetails[item.name] = 0;
-    }
-    this.getTotalCount()
-  }
-  getTotalCount(){
-
-    let mediumPizzaPrice = 0;
-    let largePizzaPrice = 0;
-    let smallPizzaPrice = 0;
-    let exLargePizzaPrice =0;
-    for(const keys of Object.keys(this.pizzaDetailObj)){
-      if(this.pizzaCartDetails[keys] > 0){
-        if(keys === 'medium') {
-          mediumPizzaPrice = this.getSingleMediumPricePizza();
-        } else if(keys  === 'large') {
-          largePizzaPrice = this.getSingleLargePricePizza();
-        } else if(keys  === 'small'){
-          smallPizzaPrice = this.getPizzaPrize(keys);
-          this.smallPizzaPrice = smallPizzaPrice;
-        } else {
-          exLargePizzaPrice = this.getPizzaPrize(keys);
-          this.exLargePizzaPrice = exLargePizzaPrice;
-          }
+      if(item.name === 'Pepperoni'||item.name === 'BbQ'){
+        this.pizzaDetailObj[size].topCount = this.pizzaDetailObj[size].topCount-2;
+      } else{
+        this.pizzaDetailObj[size].topCount--
       }
     }
-    this.grandTotal = smallPizzaPrice + mediumPizzaPrice + largePizzaPrice + exLargePizzaPrice ;
+    this.getTotalCount(this.pizzaDetailObj)
   }
 
-  getPizzaPrize(keys){
+  getTotalCount(pizzaDetailObj){
+    let totalPrice = [];
+    for(const keys of Object.keys(pizzaDetailObj)){
+        pizzaDetailObj[keys]['sum'] = this.getPizzaPrize(pizzaDetailObj[keys],keys);
+        totalPrice.push({
+          'value': this.getPizzaPrize(pizzaDetailObj[keys],keys)
+        })
+    }
+    this.grandTotal = totalPrice.reduce((a, b) => a + (b['value'] || 0), 0);
+  }
+
+  getPizzaPrize(pizzaObj, keys){
     let pizzaPrice = 0;
-    let toppingsPrice = 0;
-    let toppingCount = 0;
-    let toppingsDetails = this.pizzaDetailObj[keys].toppingsDetails;
-    for(const toppingNames of Object.keys(toppingsDetails)){
-      if(toppingsDetails[toppingNames] > 0){
-      toppingCount++;
-      toppingsPrice = toppingsPrice+toppingsDetails[toppingNames];
-      }
+    if(pizzaObj.topCount === 2 && keys === 'medium' && pizzaObj.quantity>0){
+      pizzaObj.offer = 'offer 1 Applied';
+      return 5 * pizzaObj.quantity;
+    } else if(pizzaObj.topCount === 4 && keys === 'medium' && pizzaObj.quantity%2 === 0) {
+      pizzaObj.offer = 'offer 2 Applied';
+      return 9 * pizzaObj.quantity;
+    } else if(pizzaObj.topCount === 4 && keys === 'large' && pizzaObj.quantity>0){
+      pizzaObj.offer = 'offer 3 Applied';
+      let total = (this.toppingTotal(pizzaObj) + pizzaObj.price) * pizzaObj.quantity;
+      return (50*total)/100;
+    } else{
+      pizzaObj.offer ='';
+      return this.toppingTotal(pizzaObj) * pizzaObj.quantity  + pizzaObj.price * pizzaObj.quantity;
     }
-    if(toppingCount > 0){
-      pizzaPrice = pizzaPrice+((this.pizzaDetailObj[keys].price + toppingsPrice)*this.pizzaCartDetails[keys]);
-    }else{
-      pizzaPrice = pizzaPrice+(this.pizzaCartDetails[keys] * this.pizzaDetailObj[keys].price)
-    }
-    return pizzaPrice;
   }
 
-  getSingleMediumPricePizza(){
-    let pizzaPrice = 0;
-    let mediumPizzaToppingDetails = this.pizzaDetailObj['medium'].toppingsDetails;
-    let toppingCount = 0;
+  toppingTotal(pizzaObj){
     let toppingsPrice = 0;
-    for(const keys of Object.keys(mediumPizzaToppingDetails)){
-      if(mediumPizzaToppingDetails[keys] > 0){
-        toppingCount++;
-        toppingsPrice = toppingsPrice+mediumPizzaToppingDetails[keys]
+    for(const toppingNames of Object.keys(pizzaObj.toppingsDetails)){
+      if(pizzaObj.toppingsDetails[toppingNames] > 0){
+      toppingsPrice = toppingsPrice + pizzaObj.toppingsDetails[toppingNames];
       }
     }
-    if(toppingCount == 2){
-      pizzaPrice = 5;
-    }else if(toppingCount == 0){
-      pizzaPrice = this.pizzaDetailObj['medium'].price;
-    }else{
-      pizzaPrice = toppingsPrice + (this.pizzaDetailObj['medium'].price * 1)
-    }
-    this.mediumPizzaPrice = pizzaPrice;
-    return pizzaPrice;
+    return toppingsPrice;
   }
-
-  getDoubleMediumPricePizza(){
-    let pizzaPrice = 0;
-    let mediumPizzaToppingDetails = this.pizzaDetailObj['medium'].toppingsDetails;
-    let toppingCount = 0;
-    let toppingsPrice = 0;
-    for(const keys of Object.keys(mediumPizzaToppingDetails)){
-      if(mediumPizzaToppingDetails[keys] > 0){
-        toppingCount++;
-        toppingsPrice = toppingsPrice+mediumPizzaToppingDetails[keys]
-      }
-    }
-    if(toppingCount == 4){
-      pizzaPrice = 9;
-    }else if(toppingCount == 0){
-      pizzaPrice = this.pizzaDetailObj['medium'].price;
-    }else{
-      pizzaPrice = toppingsPrice + (this.pizzaDetailObj['medium'].price * 2)
-    }
-    return pizzaPrice;
-  }
-
-  getSingleLargePricePizza(){
-    let pizzaPrice = 0;
-    let largePizzaToppingDetails = this.pizzaDetailObj['large'].toppingsDetails;
-    let toppingCount = 0;
-    let toppingsPrice = 0;
-    for(const keys of Object.keys(largePizzaToppingDetails)){
-      if(largePizzaToppingDetails[keys] > 0){
-        toppingCount++;
-        toppingsPrice = toppingsPrice+largePizzaToppingDetails[keys]
-      }
-    }
-    if(toppingCount == 4){
-      pizzaPrice = toppingsPrice + (this.pizzaDetailObj['large'].price * 1);
-      pizzaPrice = (50*pizzaPrice)/100
-    }else if(toppingCount == 0){
-      pizzaPrice = this.pizzaDetailObj['large'].price;
-    }else{
-      pizzaPrice = toppingsPrice + (this.pizzaDetailObj['large'].price * 1)
-    }
-    this.largePizzaPrice = pizzaPrice;
-    return pizzaPrice;
-  }
-
-
-
 }
