@@ -31,7 +31,7 @@
         </th>
       </tr>
       <tr>
-        <td colspan="5" align="left">Veg Toppings</td>
+        <td colspan="5" align="left"><h4>Veg Toppings</h4></td>
       </tr>
       <tr *ngFor="let item of toppingArray.vegToppings">
         <td >{{item.name}} <span> -({{ item.price| currency:'CAD'}}) </span></td>
@@ -41,7 +41,7 @@
         <td><input type="checkbox" (change)="changeFn($event, 'exlarge', item)" [disabled]="pizzaDetailObj.exlarge.quantity === 0"></td>
       </tr>
       <tr>
-        <td colspan="5" align="left">Non-Veg Toppings</td>
+        <td colspan="5" align="left"><h4>Non-Veg Toppings</h4></td>
       </tr>
       <tr *ngFor="let item of toppingArray.nonVegToppings">
         <td >{{item.name}} <span>- {{ item.price| currency:'CAD'}}</span></td>
