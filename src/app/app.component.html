@@ -10,22 +10,22 @@
       </tr>
       <tr>
         <th>
-          <h3>Small<span> (${{pizzaDetailObj.small.price}})-</span>  <span>{{pizzaDetailObj.small.quantity}}</span></h3>
+          <h3>Small<span> ({{pizzaDetailObj.small.price| currency:'CAD'}})-</span>  <span>{{pizzaDetailObj.small.quantity}}</span></h3>
           <button class="btn" type="button" name="button" (click) = "addPizza('small')" >Add</button>
           <button class="btn" type="button" name="button" [disabled]="pizzaDetailObj.small.quantity === 0" (click) = "removePizza('small')" >Remove</button>
         </th>
         <th>
-          <h3>Medium<span> (${{pizzaDetailObj.medium.price}})-</span> <span> {{pizzaDetailObj.medium.quantity}}</span></h3>
+          <h3>Medium<span> ({{pizzaDetailObj.medium.price| currency:'CAD'}})-</span> <span> {{pizzaDetailObj.medium.quantity}}</span></h3>
           <button class="btn" type="button" name="button" (click) = "addPizza('medium')" >Add</button>
           <button class="btn" type="button" name="button" [disabled]="pizzaDetailObj.medium.quantity === 0" (click) = "removePizza('medium')" >Remove</button>
         </th>
         <th>
-          <h3>Large<span> (${{pizzaDetailObj.large.price}})-</span>  <span>{{pizzaDetailObj.large.quantity}}</span></h3>
+          <h3>Large<span> ({{pizzaDetailObj.large.price| currency:'CAD'}})-</span>  <span>{{pizzaDetailObj.large.quantity}}</span></h3>
           <button class="btn" type="button" name="button" (click) = "addPizza('large')" >Add</button>
           <button class="btn" type="button" name="button" [disabled]="pizzaDetailObj.large.quantity === 0" (click) = "removePizza('large')" >Remove</button>
         </th>
         <th>
-          <h3>Extra Large<span> (${{pizzaDetailObj.exlarge.price}})-</span>  <span>{{pizzaDetailObj.exlarge.quantity}}</span></h3>
+          <h3>Extra Large<span> ({{pizzaDetailObj.exlarge.price| currency:'CAD'}})-</span>  <span>{{pizzaDetailObj.exlarge.quantity}}</span></h3>
           <button class="btn" type="button" name="button" (click) = "addPizza('exlarge')" >Add</button>
           <button class="btn" type="button" name="button" [disabled]="pizzaDetailObj.exlarge.quantity === 0" (click) = "removePizza('exlarge')" >Remove</button>
         </th>
@@ -34,7 +34,7 @@
         <td colspan="5" align="left">Veg Toppings</td>
       </tr>
       <tr *ngFor="let item of toppingArray.vegToppings">
-        <td >{{item.name}} <span> -(${{ item.price}}) </span></td>
+        <td >{{item.name}} <span> -({{ item.price| currency:'CAD'}}) </span></td>
         <td><input type="checkbox" (change)="changeFn($event, 'small', item)" [disabled]="pizzaDetailObj.small.quantity === 0"></td>
         <td><input type="checkbox" (change)="changeFn($event, 'medium', item)" [disabled]="pizzaDetailObj.medium.quantity === 0"></td>
         <td><input type="checkbox" (change)="changeFn($event, 'large', item)" [disabled]="pizzaDetailObj.large.quantity=== 0"></td>
@@ -44,7 +44,7 @@
         <td colspan="5" align="left">Non-Veg Toppings</td>
       </tr>
       <tr *ngFor="let item of toppingArray.nonVegToppings">
-        <td >{{item.name}} <span>- {{ item.price}}</span></td>
+        <td >{{item.name}} <span>- {{ item.price| currency:'CAD'}}</span></td>
         <td><input type="checkbox" (change)="changeFn($event, 'small', item)" [disabled]="pizzaDetailObj.small.quantity === 0"></td>
         <td><input type="checkbox" (change)="changeFn($event, 'medium', item)" [disabled]="pizzaDetailObj.medium.quantity === 0"></td>
         <td><input type="checkbox" (change)="changeFn($event, 'large', item)" [disabled]="pizzaDetailObj.large.quantity === 0"></td>
@@ -52,14 +52,14 @@
       </tr>
       <tr>
         <td>Individual Price</td>
-        <td>${{pizzaDetailObj.small.sum}}<p>{{pizzaDetailObj.small.offer}}</p></td>
-        <td>${{pizzaDetailObj.medium.sum}}<p>{{pizzaDetailObj.medium.offer}}</p></td>
-        <td>${{pizzaDetailObj.large.sum}}<p>{{pizzaDetailObj.large.offer}}</p></td>
-        <td>${{pizzaDetailObj.exlarge.sum}}<p>{{pizzaDetailObj.exlarge.offer}}</p></td>
+        <td>{{pizzaDetailObj.small.sum | currency:'CAD'}}<p>{{pizzaDetailObj.small.offer}}</p></td>
+        <td>{{pizzaDetailObj.medium.sum| currency:'CAD'}}<p>{{pizzaDetailObj.medium.offer}}</p></td>
+        <td>{{pizzaDetailObj.large.sum| currency:'CAD'}}<p>{{pizzaDetailObj.large.offer}}</p></td>
+        <td>{{pizzaDetailObj.exlarge.sum| currency:'CAD'}}<p>{{pizzaDetailObj.exlarge.offer}}</p></td>
       </tr>
       <tr>
         <td>Total</td>
-        <td colspan="4">${{grandTotal}}</td>
+        <td colspan="4">{{grandTotal| currency:'CAD'}}</td>
       </tr>
     </table>
   </div>

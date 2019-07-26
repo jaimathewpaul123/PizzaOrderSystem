@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component , OnInit} from '@angular/core';
+import { OrderserviceService } from './orderservice.service';
 
 @Component({
   selector: 'app-root',
@@ -6,119 +7,21 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent {
+
+
+export class AppComponent implements OnInit{
+
+  constructor (private orderservice: OrderserviceService) { }
+
   title = 'Pizza-order';
   grandTotal:number = 0;
-  toppingArray:any = {
-    'vegToppings' : [
-      {
-        'name': 'Tomato',
-        'price': 1,
-      },
-      {
-        'name': 'Onions',
-        'price': 0.50,
-      },
-      {
-        'name': 'BellPepper',
-        'price': 1,
-      },
-      {
-        'name': 'Mushrooms',
-        'price': 1.20,
-      },
-      {
-        'name': 'PineApple',
-        'price': 0.75,
-      }
-    ],
-    'nonVegToppings' : [
-      {
-        'name': 'Sausage',
-        'price': 1,
-      },
-      {
-        'name': 'Pepperoni',
-        'price': 2,
-      },
-      {
-        'name': 'BbQ',
-        'price': 3,
-      }
-    ]
-  }
+  pizzaDetailObj:any;
+  toppingArray:any;
 
-  pizzaDetailObj:any = {
-    'small':{
-      'price':5,
-      'quantity': 0,
-      'topCount':0,
-      'sum':0,
-      'offer':'',
-      'toppingsDetails': {
-        'tomatoes':0,
-        'onions':0,
-        'bellPepper':0,
-        'mushrooms':0,
-        'pineApple':0,
-        'sausage':0,
-        'pepperoni':0,
-        'bbQ':0,
-      }
-    },
-    'medium':{
-      'price':7,
-      'quantity': 0,
-      'topCount':0,
-      'sum':0,
-      'offer':'',
-      'toppingsDetails': {
-        'tomatoes':0,
-        'onions':0,
-        'bellPepper':0,
-        'mushrooms':0,
-        'pineApple':0,
-        'sausage':0,
-        'pepperoni':0,
-        'bbQ':0,
-      }
-    },
-    'large':{
-      'price':8,
-      'quantity': 0,
-      'topCount':0,
-      'sum':0,
-      'offer':'',
-      'toppingsDetails': {
-        'tomatoes':0,
-        'onions':0,
-        'bellPepper':0,
-        'mushrooms':0,
-        'pineApple':0,
-        'sausage':0,
-        'pepperoni':0,
-        'bbQ':0,
-      }
-    },
-    'exlarge':{
-      'price':9,
-      'quantity': 0,
-      'topCount':0,
-      'sum':0,
-      'offer':'',
-      'toppingsDetails': {
-        'tomatoes':0,
-        'onions':0,
-        'bellPepper':0,
-        'mushrooms':0,
-        'pineApple':0,
-        'sausage':0,
-        'pepperoni':0,
-        'bbQ':0,
-      }
-    }
-  }
-
+ngOnInit(){
+  this.pizzaDetailObj = this.orderservice.getPizzaObj();
+  this.toppingArray = this.orderservice.getToppingArray();
+}
  addPizza(type){
    this.pizzaDetailObj[type].quantity++;
    this.getTotalCount(this.pizzaDetailObj);
